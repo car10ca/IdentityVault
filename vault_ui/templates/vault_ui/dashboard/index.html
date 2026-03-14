@@ -1,0 +1,95 @@
+{% extends "vault_ui/base.html" %}
+{% load static %}
+
+{% comment %}
+Template: vault_ui/dashboard/index.html
+
+Purpose:
+Displays the IdentityVault dashboard where users can view and manage
+their contextual identity profiles.
+
+Features:
+- Lists all profiles owned by the authenticated user
+- Displays number of connected applications per profile
+- Provides navigation to profile management pages
+- Displays onboarding guidance when no profiles exist
+
+Security considerations:
+- Only authenticated users can access the dashboard
+- Profile data shown is filtered server-side to ensure ownership
+{% endcomment %}
+
+{% block content %}
+
+{% include "vault_ui/partials/header.html" %}
+
+
+<div class="iv-section-heading">
+    <span class="iv-section-title">
+        YOUR PROFILES
+    </span>
+</div>
+
+<div class="iv-nav-strip">
+    <div class="iv-breadcrumbs">
+        <span class="iv-breadcrumb-current">
+            Dashboard <span class="iv-breadcrumb-sep">›</span>
+        </span>
+    </div>
+</div>
+
+<p class="iv-dashboard-helper">
+    Manage your profiles, connected applications and consent.
+</p>
+
+<div class="iv-content">
+
+
+    {% if not profiles %}
+
+
+    <p class="iv-empty-text fw-semibold">
+        Welcome to IdentityVault!
+    </p>
+
+    <p class="iv-empty-text">
+        To begin, create your first profile.
+        Profiles allow you to separate contexts
+        and control which applications can access each identity.
+    </p>
+
+
+    {% else %}
+
+
+    <div class="iv-profiles-list">
+
+        {% for p in profiles %}
+
+
+        <div class="iv-profile-row">
+
+
+            <!-- LEFT SIDE -->
+            <div class="iv-profile-info">
+
+                <div class="iv-profile-name">
+                    {{ p.name }}
+                </div>
+
+                <div class="iv-profile-meta">
+                    {{ p.connected_apps }} connected apps
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+            <a href="{% url 'vault_profile_detail' p.id %}" class="iv-btn-manage">Manage</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <a class="btn iv-btn-primary w-100 iv-create-btn" href="{% url 'vault_profile_create' %}">+ Create new profile</a>
+</div>
+{% endblock %}

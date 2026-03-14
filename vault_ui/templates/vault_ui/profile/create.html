@@ -1,0 +1,208 @@
+{% extends "vault_ui/base.html" %}
+
+{% comment %}
+Template: vault_ui/profile/create.html
+
+Purpose:
+Provides the form interface for creating and editing contextual
+identity profiles within IdentityVault.
+
+Features:
+- Allows users to define identity attributes for a contextual profile
+- Supports both profile creation and profile editing modes
+- Displays validation feedback for individual form fields
+- Provides clear navigation and cancellation options
+
+Security considerations:
+- Form submission uses POST with CSRF protection
+- Profile ownership and validation are enforced server-side
+- Only authenticated users can access this interface
+{% endcomment %}
+
+{% load static %}
+
+{% block content %}
+
+{% include "vault_ui/partials/header.html" %}
+
+<!-- ========================================= -->
+<!-- Dynamic Heading -->
+<!-- ========================================= -->
+
+<div class="iv-section-heading">
+    <span class="iv-section-title">
+        {% if is_edit %}
+        EDIT PROFILE
+        {% else %}
+        PROFILE CREATION FORM
+        {% endif %}
+    </span>
+</div>
+
+<div class="iv-nav-strip">
+    <div class="iv-breadcrumbs">
+        <a href="{% url 'vault_dashboard' %}" class="iv-breadcrumb-link">
+            Dashboard
+        </a>
+
+        <span class="iv-breadcrumb-sep">›</span>
+
+        <span class="iv-breadcrumb-current">
+            {% if is_edit %}
+            Edit Profile
+            {% else %}
+            Create Profile
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+<div class="iv-content">
+
+    <div class="iv-profile-name">
+        Profile Attributes
+    </div>
+
+    <p class="iv-empty-text">
+        Create a contextual profile to share appropriate identity
+        information with external applications.
+    </p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- ============================= -->
+        <!-- GLOBAL FORM ERRORS -->
+        <!-- ============================= -->
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger small">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        {% if form.errors and not form.non_field_errors %}
+        <div class="alert alert-danger small">
+            Please correct the highlighted fields below.
+        </div>
+        {% endif %}
+
+        <!-- Profile Name -->
+        <div class="mb-3">
+            <label class="form-label iv-label">
+                Profile Name <span class="text-danger">*</span>
+            </label>
+
+            {{ form.name }}
+
+            {% if form.name.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.name.errors.0 }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- First Name -->
+        <div class="mb-3">
+            <label class="form-label iv-label">
+                First Name <span class="text-danger">*</span>
+            </label>
+
+            {{ form.first_name }}
+
+            {% if form.first_name.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.first_name.errors.0 }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Last Name -->
+        <div class="mb-3">
+            <label class="form-label iv-label">
+                Last Name <span class="text-danger">*</span>
+            </label>
+
+            {{ form.last_name }}
+
+            {% if form.last_name.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.last_name.errors.0 }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label class="form-label iv-label">
+                Email <span class="text-danger">*</span>
+            </label>
+
+            {{ form.email }}
+
+            {% if form.email.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.email.errors.0 }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Birth Year -->
+        <div class="mb-3">
+            <label class="form-label iv-label">
+                Birth Year <span class="text-danger">*</span>
+            </label>
+
+            {{ form.birth_year }}
+
+            {% if form.birth_year.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.birth_year.errors.0 }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- City -->
+        <div class="mb-3">
+            <label class="form-label iv-label">
+                City <span class="text-danger">*</span>
+            </label>
+
+            {{ form.city }}
+
+            {% if form.city.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.city.errors.0 }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Clear -->
+        <div class="text-end mb-4">
+            <a href="{% url 'vault_profile_create' %}?clear=1" class="iv-clear-link">
+                Clear all
+            </a>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn iv-btn-primary flex-fill">
+                Save Profile
+            </button>
+
+            {% if is_edit %}
+            <a href="{% url 'vault_profile_detail' profile.id %}" class="btn btn-outline-secondary flex-fill">
+                Cancel
+            </a>
+            {% else %}
+            <a href="{% url 'vault_dashboard' %}" class="btn btn-outline-secondary flex-fill">
+                Cancel
+            </a>
+            {% endif %}
+
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,598 @@
+/* Page background */
+.iv-app-body {
+    min-height: 100vh;
+    background-color: #f6f7f9;
+    display: flex;
+    align-items: center;
+}
+
+/* Container */
+.iv-app-container {
+    max-width: 420px;
+}
+
+/* Card */
+.iv-app-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 25px 32px 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Top-right nav */
+.iv-topnav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #5F5F5F;
+}
+
+
+.iv-topnav-link {
+    color: #5F5F5F;
+    text-decoration: none;
+}
+
+.iv-topnav-link:hover {
+    text-decoration: underline;
+}
+
+.iv-topnav-sep {
+    margin: 0 10px;
+    color: #5F5F5F;
+}
+
+/* Brand */
+.iv-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    /* space below top nav */
+    margin-bottom: 32px;
+    /* space before heading */
+}
+
+.iv-brand-logo {
+    height: 54px;
+    width: auto;
+    display: block;
+}
+
+.iv-brand-text {
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.iv-header {
+    position: relative;
+    padding-top: 32px;
+    margin-bottom: 32px;
+}
+
+
+/* Heading with lines */
+.iv-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0 25px;
+}
+
+.iv-section-heading::before,
+.iv-section-heading::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #6E6E6F;
+    opacity: 0.4;
+}
+
+.iv-section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #6E6E6F;
+    white-space: nowrap;
+}
+
+/* Navigation Strip */
+
+.iv-nav-strip {
+    background-color: #f1f1f1;
+    padding: 6px 32px;
+    margin-left: -32px;
+    margin-right: -32px;
+    margin-bottom: 22px;
+}
+
+
+
+/* Breadcrumbs */
+.iv-breadcrumbs {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #5F5F5F;
+    margin: 0;
+}
+
+.iv-breadcrumb-link {
+    color: #5F5F5F;
+    text-decoration: none;
+}
+
+.iv-breadcrumb-link:hover {
+    text-decoration: underline;
+}
+
+.iv-breadcrumb-sep {
+    margin: 0 6px;
+    color: #5F5F5F;
+}
+
+.iv-breadcrumb-current {
+    color: #5F5F5F;
+    font-weight: 500;
+}
+
+/* Content */
+.iv-content {
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+}
+
+.iv-empty-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5F5F5F;
+    line-height: 1.4;
+    margin-bottom: 22px;
+}
+
+/* Profiles list */
+.iv-profiles-list {
+    margin-bottom: 22px;
+}
+
+.iv-profile-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 160px;
+    /* 3 columns */
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
+
+.iv-profile-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    /* medium */
+    color: #5F5F5F;
+}
+
+.iv-profile-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    /* light */
+    color: #5F5F5F;
+}
+
+.iv-manage-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    /* regular */
+    color: #5F5F5F;
+    text-decoration: none;
+}
+
+.iv-manage-link:hover {
+    text-decoration: underline;
+}
+
+/* Primary button */
+.iv-btn-primary {
+    background-color: #3C3C3C;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.iv-btn-primary:hover {
+    background-color: #000000;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.iv-create-btn {
+    margin-top: 8px;
+}
+
+
+
+
+/* Footer */
+.iv-page-footer {
+    margin-top: 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: #8A8E99;
+}
+
+.iv-footer-note {
+    margin-bottom: 4px;
+}
+
+
+/* Secondary button with same height as primary */
+.iv-btn-secondary {
+    background: transparent;
+    color: #5F5F5F;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #CFCFCF;
+    transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.iv-btn-secondary:hover {
+    border-color: #3C3C3C;
+    color: #3C3C3C;
+}
+
+/* =========================================================
+   Dashboard Profile List (Overview)
+   ========================================================= */
+
+.iv-profiles-list {
+
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+}
+
+
+/* Profile row container */
+
+.iv-profile-row {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+
+/* Left column */
+
+.iv-profile-info {
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+}
+
+
+/* Profile name */
+
+.iv-profile-name {
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    /* medium */
+    font-size: 15px;
+    color: #5F5F5F;
+
+}
+
+
+/* Connected apps */
+
+.iv-profile-meta {
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    /* light */
+    font-size: 14px;
+    color: #5F5F5F;
+
+}
+
+
+/* Manage button */
+
+.iv-btn-manage {
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+
+    color: #5F5F5F;
+
+    background: transparent;
+
+    border: 1px solid #5F5F5F;
+
+    border-radius: 6px;
+
+    padding: 6px 14px;
+
+    text-decoration: none;
+
+    transition: all 0.15s ease;
+
+}
+
+
+.iv-btn-manage:hover {
+
+    background: #f6f7f9;
+
+    text-decoration: none;
+
+}
+
+
+.iv-dashboard-helper {
+    font-size: 14px;
+    color: #5F5F5F;
+    margin-top: 12px;
+    margin-bottom: 16px;
+}
+
+/* =========================================================
+   PROFILE DETAIL PAGE
+========================================================= */
+
+.iv-profile-block {
+    margin-bottom: 32px;
+}
+
+.iv-profile-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #5F5F5F;
+    margin-bottom: 12px;
+}
+
+.iv-profile-attributes {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5F5F5F;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.iv-profile-edit-btn {
+    margin-top: 8px;
+}
+
+
+/* Subsections */
+
+.iv-subsection {
+    margin-top: 40px;
+}
+
+.iv-subsection-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #5F5F5F;
+    margin-bottom: 16px;
+}
+
+
+/* Application list */
+
+.iv-app-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.iv-app-row {
+    display: grid;
+    grid-template-columns: 1fr 110px 70px;
+    align-items: center;
+    gap: 15px;
+}
+
+.iv-app-name {
+    font-weight: 500;
+    font-size: 14px;
+    color: #5F5F5F;
+}
+
+.iv-app-status {
+    font-size: 13px;
+    font-weight: 300;
+    color: #5F5F5F;
+    text-align: left;
+}
+
+.iv-status-granted {
+    color: #1f8f3a;
+}
+
+.iv-status-denied {
+    color: #c4302b;
+}
+
+.iv-status-pending {
+    color: #d6a400;
+}
+
+.iv-status-revoked {
+    color: #6c757d;
+}
+
+
+/* Connect block */
+
+.iv-connect-block {
+    margin-top: 40px;
+}
+
+.iv-select {
+    font-size: 14px;
+}
+
+
+
+/* =========================================================
+   PROFILE FORM TYPOGRAPHY + INPUT FIX
+   ========================================================= */
+
+/* Labels */
+.iv-content .iv-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #5F5F5F;
+    margin-bottom: 6px;
+}
+
+/* Inputs */
+.iv-content .iv-input {
+    border: 1px solid #5F5F5F;
+    font-size: 14px;
+    color: #5F5F5F;
+}
+
+/* Remove Bootstrap blue focus */
+.iv-content .iv-input:focus {
+    border-color: #5F5F5F;
+    box-shadow: none;
+}
+
+/* Clear all link */
+.iv-clear-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    color: #5F5F5F;
+    text-decoration: none;
+}
+
+.iv-clear-link:hover {
+    color: #5F5F5F;
+    text-decoration: underline;
+}
+
+/* Form Alert */
+.iv-alert {
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+
+
+/* =========================================
+   LANDING PAGE / HOMEPAGE
+========================================= */
+/* ================= Landing ================= */
+
+.iv-landing-hero {
+    margin-bottom: 48px;
+}
+
+.iv-landing-headline {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #5F5F5F;
+    margin-bottom: 14px;
+}
+
+.iv-landing-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5F5F5F;
+    line-height: 1.6;
+    margin-bottom: 28px;
+    max-width: 360px;
+}
+
+.iv-landing-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.iv-landing-actions .btn {
+    width: 50%;
+}
+
+.iv-landing-section {
+    margin-top: 56px;
+}
+
+.iv-landing-section-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #5F5F5F;
+    margin-bottom: 20px;
+}
+
+.iv-landing-step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #5F5F5F;
+}
+
+.iv-step-number {
+    font-weight: 500;
+    min-width: 18px;
+}
+
+
+
+.iv-landing-trust-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.iv-landing-trust-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5F5F5F;
+}
+
+.iv-check {
+    font-weight: 600;
+    font-size: 14px;
+    color: #5F5F5F;
+    line-height: 1.4;
+}

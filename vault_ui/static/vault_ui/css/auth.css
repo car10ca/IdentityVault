@@ -1,0 +1,255 @@
+/* =========================
+   Page background
+   ========================= */
+.iv-auth-body {
+    min-height: 100vh;
+    background-color: #f6f7f9;
+    display: flex;
+    align-items: center;
+}
+
+/* =========================
+   Container
+   ========================= */
+.iv-auth-container {
+    max-width: 420px;
+}
+
+/* =========================
+   Card
+   ========================= */
+.iv-auth-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   Header (logo + subtitle)
+   ========================= */
+.iv-auth-header {
+    margin-bottom: 40px;
+    /* space before Email */
+}
+
+/* Logo row */
+.iv-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+.iv-logo-text {
+    font-size: 35px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* Logo image (dominant by design) */
+.iv-logo-img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+/* =========================
+   Secure Authentication heading
+   ========================= */
+.iv-auth-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.iv-auth-heading::before,
+.iv-auth-heading::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #6E6E6F;
+    opacity: 0.4;
+}
+
+.iv-auth-heading-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    /* regular */
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #6E6E6F;
+    white-space: nowrap;
+}
+
+.iv-auth-info {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5F5F5F;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+
+/* =========================
+   Labels & inputs
+   ========================= */
+.iv-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    /* regular */
+    color: #5F5F5F;
+}
+
+.iv-input {
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+/* =========================
+   Primary button
+   ========================= */
+.iv-btn-primary {
+    background-color: #3C3C3C;
+    /* dark grey, not black */
+    color: #ffffff;
+    font-weight: 600;
+    /* stable weight */
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    transition:
+        background-color 0.15s ease-in-out,
+}
+
+.iv-btn-primary:hover {
+    background-color: #000000;
+    /* true black on hover */
+    color: #ffffff;
+}
+
+.iv-btn-primary:active {
+    background-color: #000000;
+}
+
+/* =========================
+   Links
+   ========================= */
+.iv-link {
+    font-size: 13px;
+    color: #6c757d;
+    text-decoration: none;
+}
+
+.iv-link-light {
+    font-weight: 300;
+    /* Inter Light */
+}
+
+.iv-link-medium {
+    font-weight: 500;
+    /* Inter Medium */
+}
+
+.iv-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   Footer
+   ========================= */
+.iv-auth-footer {
+    margin-top: 20px;
+}
+
+.iv-page-footer {
+    margin-top: 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    /* light */
+    color: #8A8E99;
+}
+
+.iv-footer-text {
+    font-size: 13px;
+    color: #8A8E99;
+}
+
+/* =========================================================
+   Global app typography (override Bootstrap defaults)
+   These rules are needed on app pages (not just auth pages)
+   ========================================================= */
+
+.iv-app-card,
+.iv-content {
+    font-family: 'Inter', sans-serif;
+    color: #5F5F5F;
+}
+
+/* Ensure form labels match design system (Bootstrap otherwise uses #212529) */
+.iv-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    /* regular */
+    color: #5F5F5F;
+}
+
+/* Ensure inputs match design system */
+.iv-input,
+.iv-app-card .form-control {
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #5F5F5F;
+}
+
+/* Clear-all link should be Inter italic + design color */
+.iv-manage-link {
+    font-style: italic;
+    color: #5F5F5F;
+}
+
+
+
+/* =========================================
+   IdentityVault checkbox typography fix
+   ========================================= */
+
+.form-check-label {
+
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #5F5F5F !important;
+
+}
+
+
+/* Checkbox itself */
+.form-check-input {
+
+    border-color: #5F5F5F;
+
+}
+
+.form-check-input:checked {
+
+    background-color: #5F5F5F;
+    border-color: #5F5F5F;
+
+}
+
+.form-check-input:focus {
+
+    border-color: #5F5F5F;
+    box-shadow: 0 0 0 0.15rem rgba(95, 95, 95, 0.15);
+
+}

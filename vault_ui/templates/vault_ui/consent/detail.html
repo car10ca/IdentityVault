@@ -1,0 +1,301 @@
+{% extends "vault_ui/base.html" %}
+
+{% comment %}
+Template: vault_ui/consent/detail.html
+
+Purpose:
+Displays the consent relationship between a user profile and an external application.
+Allows the user to review requested identity attributes and manage consent decisions.
+
+Features:
+- Displays profile and application involved in the consent request
+- Shows consent lifecycle state (pending, granted, denied, revoked)
+- Provides confirmation dialogs for consent actions
+- Displays one-time consent token after approval (demonstration mode)
+
+Security considerations:
+- All consent actions are submitted via POST requests with CSRF protection
+- Consent state transitions are enforced server-side
+- One-time consent token is shown only once and stored hashed in the database
+{% endcomment %}
+
+
+{% load static %}
+
+{% block content %}
+
+{# ========================================================= #}
+{# HEADER (reusable partial ensures correct logout POST) #}
+{# ========================================================= #}
+
+{% include "vault_ui/partials/header.html" %}
+
+
+{# ========================================================= #}
+{# PAGE TITLE + BREADCRUMBS #}
+{# ========================================================= #}
+
+<div class="iv-section-heading">
+    <span class="iv-section-title">CONSENT MANAGEMENT</span>
+</div>
+
+<div class="iv-nav-strip">
+    <div class="iv-breadcrumbs">
+
+        <a href="{% url 'vault_dashboard' %}" class="iv-breadcrumb-link">
+            Dashboard
+        </a>
+
+        <span class="iv-breadcrumb-sep">›</span>
+
+        <a href="{% url 'vault_profile_detail' profile_id %}" class="iv-breadcrumb-link">
+            Profile Details
+        </a>
+
+        <span class="iv-breadcrumb-sep">›</span>
+
+        <span class="iv-breadcrumb-current">
+            Consent
+        </span>
+
+    </div>
+</div>
+
+{# ========================================================= #}
+{# CONSENT INFORMATION #}
+{# ========================================================= #}
+
+<div class="iv-content">
+
+    {# Profile name #}
+    <div class="mb-3">
+        <strong>Profile:</strong> {{ profile_name }}
+    </div>
+
+    {# Application name #}
+    <div class="mb-3">
+        <strong>Application:</strong> {{ application_name }}
+    </div>
+
+    {# Requested / approved data #}
+    <div class="mb-3">
+
+        {% if status == "granted" %}
+        <strong>Approved data:</strong>
+
+        {% elif status == "revoked" %}
+        <strong>Previously approved data:</strong>
+
+        {% else %}
+        <strong>Requested data:</strong>
+
+        {% endif %}
+
+        {{ data_list }}
+
+    </div>
+
+    {# Consent status badge #}
+    <div class="mb-4">
+
+        <strong>Status:</strong>
+
+        {% if status == "pending" %}
+        <span class="badge bg-warning text-dark">Pending</span>
+
+        {% elif status == "granted" %}
+        <span class="badge bg-success">Granted</span>
+
+        {% elif status == "denied" %}
+        <span class="badge bg-danger">Denied</span>
+
+        {% elif status == "revoked" %}
+        <span class="badge bg-secondary">Revoked</span>
+
+        {% endif %}
+
+    </div>
+
+
+    {# ===================================================== #}
+    {# ONE-TIME CONSENT TOKEN DISPLAY (SECURE DEMO MODE) #}
+    {# ===================================================== #}
+
+    {% if issued_consent_token %}
+
+    {#
+    SECURITY NOTE:
+    This token is displayed ONCE for demonstration purposes only.
+    It is stored hashed in the database and cannot be retrieved again.
+    In production, delivery would occur server-to-server.
+    #}
+
+    <div class="alert alert-warning mt-3">
+
+        <h6 class="mb-2">Consent Token (Shown Once)</h6>
+
+        <p class="small mb-2">
+            Copy this token now. It will not be displayed again.
+        </p>
+
+        <code class="d-block p-2 bg-light border rounded small" style="word-break: break-all;">
+            {{ issued_consent_token }}
+        </code>
+
+    </div>
+
+    {% endif %}
+
+
+    {# ===================================================== #}
+    {# ACTION BUTTONS (open confirmation modal) #}
+    {# ===================================================== #}
+
+    {% if status == "pending" %}
+
+    <p class="iv-empty-text">
+        No data will be shared unless you explicitly approve this request.
+    </p>
+
+    <div class="d-flex gap-2">
+
+        <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#grantConfirmModal">
+            Grant Access
+        </button>
+
+        <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#denyConfirmModal">
+            Deny Access
+        </button>
+
+    </div>
+
+    {% elif status == "granted" %}
+
+    <p class="iv-empty-text">
+        This application currently has access to the approved data.
+    </p>
+
+    <button class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#revokeConfirmModal">
+        Revoke Access
+    </button>
+
+    {% elif status == "denied" %}
+
+    <p class="iv-empty-text">
+        You previously denied this request. No data has been shared.
+    </p>
+
+    <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#grantConfirmModal">
+        Grant Access
+    </button>
+
+    {% elif status == "revoked" %}
+
+    <p class="iv-empty-text">
+        Access was previously granted and has been withdrawn.
+    </p>
+
+    <button class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#grantConfirmModal">
+        Grant Access Again
+    </button>
+
+    {% endif %}
+
+</div>
+
+
+
+{# ========================================================= #}
+{# CONFIRMATION MODALS #}
+{# ========================================================= #}
+
+{# (UNCHANGED — your original modal code remains exactly as-is) #}
+
+<div class="modal fade" id="grantConfirmModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p>
+                    Are you sure you want to grant
+                    <strong>{{ application_name }}</strong>
+                    access to your
+                    <strong>{{ profile_name }}</strong> profile?
+                </p>
+                <form method="post" action="{% url 'vault_consent_action' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="grant">
+                    <input type="hidden" name="profile_id" value="{{ profile_id }}">
+                    <input type="hidden" name="application_id" value="{{ application_id }}">
+                    <button type="submit" class="btn btn-success w-100 mb-2">
+                        Confirm
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="denyConfirmModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p>
+                    Deny
+                    <strong>{{ application_name }}</strong>
+                    access to your
+                    <strong>{{ profile_name }}</strong> profile?
+                </p>
+                <form method="post" action="{% url 'vault_consent_action' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="deny">
+                    <input type="hidden" name="profile_id" value="{{ profile_id }}">
+                    <input type="hidden" name="application_id" value="{{ application_id }}">
+                    <button type="submit" class="btn btn-danger w-100 mb-2">
+                        Confirm
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="revokeConfirmModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p>
+                    Revoke
+                    <strong>{{ application_name }}</strong>
+                    access to your
+                    <strong>{{ profile_name }}</strong> profile?
+                </p>
+                <p class="iv-empty-text">
+                    The application will no longer be able to access data from this profile.
+                </p>
+                <form method="post" action="{% url 'vault_consent_action' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="revoke">
+                    <input type="hidden" name="profile_id" value="{{ profile_id }}">
+                    <input type="hidden" name="application_id" value="{{ application_id }}">
+                    <button type="submit" class="btn btn-danger w-100 mb-2">
+                        Confirm
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

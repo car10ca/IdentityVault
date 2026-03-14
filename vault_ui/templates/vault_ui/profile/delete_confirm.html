@@ -1,0 +1,94 @@
+{% extends "vault_ui/base.html" %}
+
+{% comment %}
+Template: vault_ui/profile/delete_confirm.html
+
+Purpose:
+Displays confirmation interface before permanently deleting a profile.
+
+Features:
+- Warns the user about irreversible profile deletion
+- Explains that connected applications and consent history will also be removed
+- Requires explicit confirmation via POST request
+
+Security considerations:
+- Profile deletion requires authenticated user
+- Deletion request uses POST with CSRF protection
+- Ownership validation enforced server-side
+{% endcomment %}
+
+
+{% block content %}
+
+<h4 class="mb-4 text-center">Delete Profile</h4>
+
+<p class="text-center">
+    Are you sure you want to permanently delete
+    <strong>{{ profile.name }}</strong>?
+</p>
+
+<p class="text-center text-muted small">
+    This will also remove all connected applications and consent history.
+</p>
+
+<form method="post" class="mt-4 text-center">
+    {% csrf_token %}
+
+    <div class="d-flex justify-content-center gap-3">
+        <button type="submit" class="btn btn-danger">
+            Yes, delete permanently
+        </button>
+
+        <a href="{% url 'vault_profile_detail' profile.id %}" class="btn btn-outline-secondary">
+            Cancel
+        </a>
+    </div>
+</form>
+
+
+
+
+{# ==================== DELETE PROFILE ===================== #}
+
+<div class="modal fade" id="deleteProfileModal" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-body text-center">
+
+                <p>
+                    Permanently delete
+                    <strong>{{ profile.name }}</strong>?
+                </p>
+
+                <p class="iv-empty-text">
+                    All connected applications and consent history
+                    will be removed.
+                </p>
+
+                <form method="post" action="{% url 'vault_profile_delete' profile.id %}">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-danger w-100 mb-2">
+                        Confirm Deletion
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

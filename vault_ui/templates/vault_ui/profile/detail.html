@@ -1,0 +1,198 @@
+{% extends "vault_ui/base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% include "vault_ui/partials/header.html" %}
+
+<div class="iv-section-heading">
+    <span class="iv-section-title">PROFILE DETAILS</span>
+</div>
+
+<div class="iv-nav-strip">
+    <div class="iv-breadcrumbs">
+        <a href="{% url 'vault_dashboard' %}" class="iv-breadcrumb-link">Dashboard</a>
+        <span class="iv-breadcrumb-sep">›</span>
+        <span class="iv-breadcrumb-current">{{ profile.name }}</span>
+    </div>
+</div>
+
+<div class="iv-content">
+
+    <!-- ================= PROFILE BLOCK ================= -->
+
+    <div class="iv-profile-block">
+
+        <div class="iv-profile-title">
+            {{ profile.name }}
+        </div>
+
+        <div class="iv-profile-attributes">
+            <div><strong>First name:</strong> {{ profile.first_name|default:"—" }}</div>
+            <div><strong>Last name:</strong> {{ profile.last_name|default:"—" }}</div>
+            <div><strong>Email:</strong> {{ profile.email|default:"—" }}</div>
+            <div><strong>Birth year:</strong> {{ profile.birth_year|default:"—" }}</div>
+            <div><strong>City:</strong> {{ profile.city|default:"—" }}</div>
+        </div>
+
+
+
+        <div class="d-flex gap-3 mt-3">
+            <a href="{% url 'vault_profile_edit' profile.id %}" class="btn btn-outline-secondary w-100">
+                Edit Profile
+            </a>
+
+            <button class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">
+                Delete
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= CONNECTED APPLICATIONS ================= -->
+
+    <div class="iv-subsection">
+
+        {% if consents %}
+
+        <!-- Header Row -->
+        <div class="iv-app-row" style="font-weight:500; font-size:14px;">
+            <div>Application</div>
+            <div>Status</div>
+            <div>Action</div>
+        </div>
+
+        <div class="iv-app-list">
+
+            {% for consent in consents %}
+
+            <div class="iv-app-row">
+
+                <!-- Name -->
+                <div class="iv-app-name">
+                    {{ consent.application.name }}
+                </div>
+
+                <!-- Status -->
+                <div class="iv-app-status
+                    {% if consent.status == 'granted' %}iv-status-granted
+                    {% elif consent.status == 'denied' %}iv-status-denied
+                    {% elif consent.status == 'pending' %}iv-status-pending
+                    {% elif consent.status == 'revoked' %}iv-status-revoked
+                    {% endif %}">
+                    {{ consent.get_status_display }}
+                </div>
+
+                <!-- Action -->
+                <div>
+                    <a href="{% url 'vault_consent_detail' profile.id consent.application.id %}" class="iv-manage-link">
+                        Review
+                    </a>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <p class="iv-empty-text">
+            No applications are connected to this profile yet.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================= CONNECT APPLICATION ================= -->
+
+    <div class="iv-subsection iv-connect-block">
+
+        <div class="iv-subsection-title">
+            Connect Application
+        </div>
+
+        <p class="iv-empty-text">
+            Selecting an application starts a connection flow.
+            No data is shared until you explicitly grant access.
+        </p>
+
+        {% if available_apps %}
+
+        <form method="post" action="{% url 'vault_connect_application' profile.id %}">
+            {% csrf_token %}
+
+            <select class="form-select iv-select mb-3" name="application_id" required>
+                <option disabled selected value="">
+                    Select application…
+                </option>
+
+                {% for app in available_apps %}
+                <option value="{{ app.id }}">
+                    {{ app.name }}
+                </option>
+                {% endfor %}
+            </select>
+
+
+            <button class="btn iv-btn-primary w-100" type="submit">
+                Continue
+            </button>
+
+        </form>
+
+        {% else %}
+
+        <p class="iv-empty-text">
+            All available applications are already connected.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- ================= DELETE PROFILE MODAL ================= -->
+
+<div class="modal fade" id="deleteProfileModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+
+                <p>
+                    Permanently delete
+                    <strong>{{ profile.name }}</strong>?
+                </p>
+
+                <p class="iv-empty-text">
+                    All connected applications and consent history will be removed.
+                </p>
+
+                <form method="post" action="{% url 'vault_profile_delete' profile.id %}">
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-danger w-100 mb-2">
+                        Confirm Deletion
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

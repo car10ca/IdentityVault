@@ -1,0 +1,115 @@
+{% extends "vault_ui/base.html" %}
+{% load static %}
+
+{% comment %}
+Template: vault_ui/landing.html
+
+Purpose:
+Public landing page introducing the IdentityVault system and its
+context-sensitive identity management concept.
+
+Features:
+- Presents the core idea of contextual identity profiles
+- Explains the basic workflow of profile creation, application connection,
+and consent management
+- Provides entry points for user authentication and account creation
+
+Security considerations:
+- No user-specific data is displayed
+- Navigation adapts depending on authentication state via header component
+{% endcomment %}
+
+{% block content %}
+
+{% include "vault_ui/partials/header.html" %}
+
+<div class="iv-section-heading">
+    <span class="iv-section-title">
+        DIGITAL IDENTITY CONTROL
+    </span>
+</div>
+
+<div class="iv-content">
+
+    <!-- ================= HERO ================= -->
+
+    <div class="iv-landing-hero">
+
+        <div class="iv-landing-headline">
+            Take control of how your identity is shared.
+        </div>
+
+        <div class="iv-landing-description">
+            IdentityVault enables you to create contextual identity profiles
+            and decide precisely which applications may access your data —
+            transparently, securely, and in accordance with GDPR principles.
+        </div>
+
+        <div class="iv-landing-actions">
+            <a href="{% url 'vault_login' %}" class="btn iv-btn-secondary">
+                Log in
+            </a>
+
+            <a href="{% url 'vault_register' %}" class="btn iv-btn-primary">
+                Create account
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <div class="iv-landing-section">
+
+        <div class="iv-landing-section-title">
+            How It Works
+        </div>
+
+        <div class="iv-landing-step">
+            <span class="iv-step-number">1.</span>
+            <div>
+                <strong>Create Profiles</strong><br>
+                Separate professional, private or contextual identities.
+            </div>
+        </div>
+
+        <div class="iv-landing-step">
+            <span class="iv-step-number">2.</span>
+            <div>
+                <strong>Connect Applications</strong><br>
+                Choose which profile an application can access.
+            </div>
+        </div>
+
+        <div class="iv-landing-step">
+            <span class="iv-step-number">3.</span>
+            <div>
+                <strong>Control Consent</strong><br>
+                Grant, deny or revoke access at any time.
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= PRIVACY COMMITMENT ================= -->
+
+    <div class="iv-landing-section iv-landing-trust">
+
+        <div class="iv-landing-section-title">
+            Privacy Commitment
+        </div>
+
+        <ul class="iv-landing-trust-list">
+            <li><span class="iv-check">✓</span>Explicit approval required before data sharing</li>
+            <li><span class="iv-check">✓</span>Access can be revoked at any time</li>
+            <li><span class="iv-check">✓</span>Full data export and deletion available</li>
+            <li><span class="iv-check">✓</span>No personal data is sold</li>
+        </ul>
+
+    </div>
+
+</div>
+
+{% endblock %}

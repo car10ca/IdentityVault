@@ -1,0 +1,124 @@
+{% extends "vault_ui/base.html" %}
+
+{% comment %}
+Template: vault_ui/account_data.html
+
+Purpose:
+Provides users with access to account management and GDPR-aligned
+data rights within IdentityVault.
+
+Features:
+- Allows users to export stored personal data in CSV format
+- Allows permanent deletion of the user account and all associated data
+- Displays clear warnings about irreversible data deletion
+
+Security considerations:
+- All actions require authenticated user access
+- Export and deletion requests use POST with CSRF protection
+- Account deletion is enforced server-side
+{% endcomment %}
+
+{% load static %}
+
+{% block content %}
+
+{% include "vault_ui/partials/header.html" %}
+
+
+<!-- SECTION TITLE -->
+<div class="iv-section-heading">
+    <span class="iv-section-title">
+        ACCOUNT &amp; DATA RIGHTS
+    </span>
+</div>
+
+
+<!-- BREADCRUMBS -->
+<div class="iv-nav-strip">
+    <div class="iv-breadcrumbs">
+        <a href="{% url 'vault_dashboard' %}" class="iv-breadcrumb-link">
+            Dashboard
+        </a>
+
+        <span class="iv-breadcrumb-sep">›</span>
+
+        <span class="iv-breadcrumb-current">
+            Account &amp; Data
+        </span>
+    </div>
+</div>
+
+
+<div class="iv-content">
+
+
+    <!-- EXPORT SECTION -->
+    <div class="mb-4">
+
+        <!-- Inter Medium -->
+        <div class="iv-profile-name mb-2">
+            Export your data
+        </div>
+
+        <!-- Inter Regular -->
+        <div class="iv-empty-text mb-1">
+            Available formats
+        </div>
+
+        <!-- Inter Light -->
+        <ul class="iv-profile-meta mb-3">
+            <li>CSV</li>
+        </ul>
+
+
+        <form method="post" action="{% url 'vault_export_csv' %}">
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-dark w-100">
+                Download my data
+            </button>
+
+        </form>
+
+    </div>
+
+
+
+    <!-- DELETE SECTION -->
+    <div>
+
+        <!-- Inter Medium -->
+        <div class="iv-profile-name mb-2">
+            Delete account and all data
+        </div>
+
+        <!-- Inter Regular -->
+        <div class="iv-empty-text mb-3">
+            All of your data and account details will be deleted immediately.
+            This action cannot be undone.
+            IdentityVault does not keep backups of your data.
+        </div>
+
+
+        <form method="post" action="{% url 'vault_delete_account' %}" onsubmit="return confirmDeletion();">
+
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100" aria-label="Delete IdentityVault account permanently">
+                Delete account
+            </button>
+
+        </form>
+    </div>
+</div>
+
+
+
+<script>
+    function confirmDeletion() {
+        return confirm(
+            "Delete your account and all data?\n\nThis action cannot be undone."
+        );
+    }
+</script>
+
+{% endblock %}

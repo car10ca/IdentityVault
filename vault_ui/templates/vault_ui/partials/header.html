@@ -1,0 +1,64 @@
+{% comment %}
+Template: vault_ui/partials/header.html
+
+Purpose:
+Reusable header component included across authenticated IdentityVault pages.
+
+Features:
+- Displays navigation for authenticated users
+- Provides access to account settings and logout
+- Displays IdentityVault branding and link to landing page
+
+Security considerations:
+- Logout action uses POST request with CSRF protection
+- Navigation options are shown only when a user is authenticated
+{% endcomment %}
+
+
+{% load static %}
+
+<div class="iv-header">
+
+    <!-- ========================================= -->
+    <!-- Top Navigation (Authenticated Only) -->
+    <!-- ========================================= -->
+    {% if request.user.is_authenticated %}
+    <div class="iv-topnav">
+
+        <a href="{% url 'vault_account_data' %}" class="iv-topnav-link">
+            Account &amp; Data
+        </a>
+
+        <span class="iv-topnav-sep">|</span>
+
+        <form method="post" action="{% url 'vault_logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="iv-topnav-link" aria-label="Log out of IdentityVault"
+                style="background:none;border:none;padding:0;">
+                Log out
+            </button>
+        </form>
+
+    </div>
+    {% endif %}
+
+    <!-- ========================================= -->
+    <!-- Brand (Always Visible) -->
+    <!-- Fix: make the link preserve flex layout -->
+    <!-- ========================================= -->
+    <div class="iv-brand">
+        <a href="{% url 'vault_landing' %}" style="
+                display:flex;
+                align-items:center;
+                gap:12px;
+                text-decoration:none;
+                color:inherit;
+           ">
+            <img src="{% static 'vault_ui/images/identityvault-logo.png' %}" alt="IdentityVault logo"
+                class="iv-brand-logo">
+
+            <span class="iv-brand-text">IdentityVault</span>
+        </a>
+    </div>
+
+</div>
