@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>LinkedInside</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f5f6f8;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            max-width: 500px;
+            margin: auto;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            background: #0a66c2;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .status {
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .profile {
+            margin-top: 16px;
+            padding: 12px;
+            background: #f0f4f8;
+            border-radius: 6px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .pending {
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h1>LinkedInside</h1>
+        <p>Fetch your professional identity from IdentityVault.</p>
+
+        <button onclick="fetchIdentity()">Fetch My Identity</button>
+
+        <div id="status" class="status"></div>
+        <div id="profile" class="profile" style="display:none;"></div>
+    </div>
+
+    <script>
+        async function fetchIdentity() {
+
+            const statusEl = document.getElementById("status");
+            const profileEl = document.getElementById("profile");
+
+            statusEl.innerHTML = "Connecting...";
+            profileEl.style.display = "none";
+
+            const appKey = prompt("Enter LinkedInside API key:");
+            if (!appKey) {
+                statusEl.innerHTML = "<span class='error'>API key required.</span>";
+                return;
+            }
+
+            const consentToken = prompt("Enter your consent token (issued when you granted access):");
+            if (!consentToken) {
+                statusEl.innerHTML = "<span class='error'>Consent token required.</span>";
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    "http://127.0.0.1:8000/api/applications/4/identity/",
+                    {
+                        headers: {
+                            "X-App-Key": appKey,
+                            "X-Consent-Token": consentToken
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (response.status === 202) {
+                    statusEl.innerHTML =
+                        "<span class='pending'>Awaiting approval in IdentityVault.</span>";
+                    return;
+                }
+
+                if (response.status === 403) {
+                    statusEl.innerHTML =
+                        "<span class='error'>Access denied or revoked.</span>";
+                    return;
+                }
+
+                if (!response.ok) {
+                    statusEl.innerHTML =
+                        "<span class='error'>Request failed.</span>";
+                    return;
+                }
+
+                statusEl.innerHTML =
+                    "<span class='success'>Connected successfully.</span>";
+
+                profileEl.innerHTML = `
+            <strong>${data.first_name} ${data.last_name}</strong><br>
+            Email: ${data.email}<br>
+            City: ${data.city}<br>
+            Birth Year: ${data.birth_year}
+        `;
+
+                profileEl.style.display = "block";
+
+            } catch (error) {
+                statusEl.innerHTML =
+                    "<span class='error'>Connection failed.</span>";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
