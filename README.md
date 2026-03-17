@@ -26,7 +26,7 @@ Example attributes include:
 
 Profiles allow users to separate identity contexts, for example professional and private usage.
 
----
+
 
 ## Consent Lifecycle Management
 
@@ -39,7 +39,6 @@ Access between an application and a profile is governed through an explicit cons
 
 This lifecycle is enforced server-side to prevent client-side manipulation.
 
----
 
 ## Secure API Authentication
 
