@@ -8,7 +8,6 @@ The system demonstrates how privacy-by-design principles such as explicit consen
 
 This project was developed as part of a Bachelor's thesis exploring context-sensitive identity management.
 
----
 
 # Key Features
 
@@ -55,7 +54,7 @@ Identity retrieval requires a valid **consent token** associated with a granted 
 
 Only when all three conditions are satisfied will identity data be returned.
 
----
+
 
 ## Attribute Filtering and Data Minimisation
 
@@ -65,7 +64,7 @@ IdentityVault enforces this restriction at the API layer by filtering profile da
 
 This prevents excessive disclosure of personal information.
 
----
+
 
 ## User-Controlled Data Rights
 
@@ -78,7 +77,7 @@ The web interface allows users to:
 - export stored personal data  
 - permanently delete their account  
 
----
+
 
 # System Architecture
 
@@ -101,7 +100,7 @@ Example identity retrieval endpoint:
 
 This endpoint verifies application authentication, consent status, and attribute permissions before returning identity data.
 
----
+
 
 # Technology Stack
 
@@ -122,7 +121,7 @@ This endpoint verifies application authentication, consent status, and attribute
 ## Database
 - SQLite (development)
 
----
+
 
 # Demonstration with LinkedInside
 
@@ -139,7 +138,7 @@ Open:
 http://127.0.0.1:9000
 
 
----
+
 
 # Demo Workflow
 
@@ -151,7 +150,7 @@ http://127.0.0.1:9000
 6. Use the API key and consent token within LinkedInside to request identity data
 7. Revoke access to demonstrate that the API request is blocked
 
----
+
 
 # Security Considerations
 
@@ -167,7 +166,7 @@ IdentityVault incorporates several security mechanisms:
 These controls implement a defence-in-depth approach to protecting identity data.
 
 
----
+
 
 # Project Purpose
 
